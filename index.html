@@ -1,206 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Priyanshu Jaiswal - Portfolio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priyanshu Jaiswal - Portfolio</title>
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
-            color: #fff;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
-        section {
-            padding: 60px 20px;
-            text-align: center;
-        }
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    background: #000;
+}
 
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: #ff6f61;
-        }
+/* Circuit Canvas Background */
+canvas#circuit-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at center, #020b1a 0%, #000 100%);
+}
 
-        .hero {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle, #1a2a6c, #b21f1f, #fdbb2d);
-            color: #fff;
-            text-align: center;
-            position: relative;
-        }
+/* Headings & Text */
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+    color: #ffd700;
+}
+p { font-size: 1.05rem; color: #ccc; }
 
-        .hero h1 {
-            font-size: 3rem;
-            background: linear-gradient(45deg, #fff, #ff6f61);
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
+/* Hero */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.hero h1 {
+    font-size: 3.5rem;
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(90deg, cyan, #0ff, #00f6ff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 4s linear infinite, float 3s ease-in-out infinite;
+}
+.hero p { margin-top: 10px; color: cyan; font-size: 1.2rem; }
+.button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: linear-gradient(90deg, #ffd700, #ffcc33);
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    color: #000;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.4);
+    transform: skewX(-20deg);
+}
+.button:hover::before { left: 100%; transition: 0.5s; }
+.button:hover { transform: scale(1.05); }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #fff; }
-            to { text-shadow: 0 0 20px #ff6f61; }
-        }
+/* Sections */
+section {
+    padding: 70px 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease-in-out;
+}
+section.visible { opacity: 1; transform: translateY(0); }
 
-        .button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: #ff6f61;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            color: #fff;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none;
-        }
+/* Cards */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 20px;
+    width: 300px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    transition: 0.3s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,255,255,0.3);
+}
+.card h3 { color: cyan; margin-bottom: 10px; }
+.card h4 { color: #aaa; margin-bottom: 8px; }
 
-        .button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-        }
+/* Contact */
+.contact a { color: #ffd700; text-decoration: none; font-weight: 500; }
+.contact a:hover { text-decoration: underline; }
 
-        .projects-container, .internship-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
+/* Footer */
+footer {
+    padding: 20px;
+    background: rgba(0,0,0,0.8);
+    color: #888;
+    text-align: center;
+}
 
-        .project-card, .internship-card {
-            background: #1e1e2f;
-            padding: 20px;
-            border-radius: 15px;
-            width: 300px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+/* Animations */
+@keyframes shine { to { background-position: 200% center; } }
+@keyframes float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-8px);} }
 
-        .project-card:hover, .internship-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .project-card h3, .internship-card h3 {
-            color: #f9a825;
-            margin-bottom: 10px;
-        }
-
-        .internship-card h4 {
-            color: #aaa;
-            margin-bottom: 8px;
-        }
-
-        .contact a {
-            color: #ffd700;
-            text-decoration: none;
-        }
-
-        .contact a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            padding: 20px;
-            background: #111;
-            color: #aaa;
-        }
-
-        @media (max-width: 768px) {
-            .project-card, .internship-card {
-                width: 90%;
-            }
-        }
-    </style>
+@media (max-width: 768px) { .card { width: 90%; } }
+</style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Hello, I'm <span>Priyanshu Jaiswal</span></h1>
-            <p>Full Stack Web Developer | MERN Stack | Java | Python</p>
-            <a href="#projects" class="button">View My Work</a>
+
+<!-- Circuit Background -->
+<canvas id="circuit-bg"></canvas>
+
+<!-- Hero -->
+<section class="hero">
+    <h1>Hello, I'm <span>Priyanshu Jaiswal</span></h1>
+    <p>Full Stack Web Developer | MERN Stack | Java | Python</p>
+    <a href="#projects" class="button">View My Work</a>
+</section>
+
+<!-- About -->
+<section id="about">
+    <h2>About Me</h2>
+    <p>Passionate about building scalable, user-friendly web applications using modern technologies. Skilled in React.js, Node.js, Express.js, MongoDB, MySQL, with a strong foundation in JavaScript, Java, and Python. Proven ability to deliver responsive and high-performance solutions, backed by problem-solving, collaboration, and adaptability skills.</p>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+    <h2>Skills</h2>
+    <p><strong>Frontend:</strong> HTML5, CSS3, JavaScript (ES6+), React.js, Tailwind CSS, Bootstrap</p>
+    <p><strong>Backend:</strong> Node.js, Express.js, RESTful APIs</p>
+    <p><strong>Database:</strong> MongoDB, MySQL</p>
+    <p><strong>Languages:</strong> Java, Python</p>
+    <p><strong>Tools:</strong> Git, GitHub, VS Code, Postman</p>
+    <p><strong>Concepts:</strong> OOP, DBMS, Software Design</p>
+</section>
+
+<!-- Internship -->
+<section id="internship">
+    <h2>Internship Experience</h2>
+    <div class="card-container">
+        <div class="card">
+            <h3>Backend Development Intern</h3>
+            <h4>Zaalima Development</h4>
+            <p><strong>Apr 2025 – Jun 2025</strong></p>
+            <p>Designed and developed RESTful APIs using Node.js and Express.js. Optimized MySQL queries improving database efficiency by 15% and enhanced backend performance for scalability.</p>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <h2>About Me</h2>
-        <p>I'm an enthusiastic Full Stack Web Developer with hands-on experience in building responsive websites and RESTful APIs using the MERN stack. I excel at both frontend and backend development with strong foundations in JavaScript, React.js, Node.js, Express.js, and MySQL. I am eager to apply my skills to real-world solutions with creativity and collaboration.</p>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="skills" id="skills">
-        <h2>Skills</h2>
-        <p><strong>Frontend:</strong> HTML, CSS, JavaScript, React.js</p>
-        <p><strong>Backend:</strong> Node.js, Express.js</p>
-        <p><strong>Database:</strong> MySQL</p>
-        <p><strong>Programming Languages:</strong> Java, Python</p>
-        <p><strong>Tools & Platforms:</strong> Git, GitHub, VS Code</p>
-        <p><strong>Concepts:</strong> DBMS, RESTful APIs, Data Structures, OOP, Operating Systems, Software Design</p>
-    </section>
-
-    <!-- Internship Section -->
-    <section class="internship" id="internship">
-        <h2>Internship Experience</h2>
-        <div class="internship-container">
-            <div class="internship-card">
-                <h3>Web Development Intern</h3>
-                <h4>Prodigy Infotech</h4>
-                <p><strong>Duration:</strong> Jul 2024 – Aug 2024</p>
-                <p>Developed responsive web pages using HTML, CSS, and JavaScript. Built reusable React components and integrated REST APIs using Node.js.</p>
-            </div>
-
-            <div class="internship-card">
-                <h3>Backend Developer Intern</h3>
-                <h4>HEALERMATE</h4>
-                <p><strong>Duration:</strong> Dec 2023 – Feb 2024</p>
-                <p>Designed RESTful APIs using Node.js & Express.js, optimized SQL queries with MySQL, and improved server-side logic and performance.</p>
-            </div>
+        <div class="card">
+            <h3>Web Development Intern</h3>
+            <h4>Prodigy Infotech</h4>
+            <p><strong>Jul 2024 – Aug 2024</strong></p>
+            <p>Developed 10+ responsive web pages using HTML, CSS, and JavaScript, improving mobile usability by 40%. Built reusable React components and integrated REST APIs with Node.js.</p>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <h2>Projects</h2>
-        <div class="projects-container">
-            <div class="project-card">
-                <h3>Tourism Website</h3>
-                <p>Built a dynamic tourism platform with interactive UI for travel planning, showcasing destinations and accommodations. Ensured mobile responsiveness.</p>
-                <p><strong>Tech Used:</strong> HTML, CSS, JavaScript</p>
-            </div>
-            <div class="project-card">
-                <h3>Age and Gender Detection</h3>
-                <p>Created a machine learning model to detect and classify age/gender from facial images. Optimized accuracy through preprocessing and model tuning.</p>
-                <p><strong>Tech Used:</strong> OpenCV, TensorFlow, PyTorch</p>
-            </div>
+<!-- Projects -->
+<section id="projects">
+    <h2>Projects</h2>
+    <div class="card-container">
+        <div class="card">
+            <h3>Job Portal Web Application</h3>
+            <p>Developed a MERN stack job portal for job seekers and recruiters with JWT authentication, role-based access control, job filters, pagination, and MongoDB Atlas integration.</p>
+            <p><strong>Tech Used:</strong> React.js, Node.js, Express.js, MongoDB</p>
         </div>
-    </section>
+        <div class="card">
+            <h3>E-Commerce Store with Payment Gateway</h3>
+            <p>Built a MERN stack e-commerce platform with Stripe payment integration, Redux Toolkit for state management, and an admin dashboard for product and order tracking.</p>
+            <p><strong>Tech Used:</strong> React.js, Node.js, Express.js, MongoDB, Stripe API</p>
+        </div>
+    </div>
+</section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <h2>Contact Me</h2>
-        <p>Email: <a href="mailto:jaiswal000.pj@gmail.com">jaiswal000.pj@gmail.com</a></p>
-        <p>Phone: <a href="tel:8864014874">8864014874</a></p>
-        <p>Location: Greater Noida, Uttar Pradesh</p>
-        <p><a href="https://www.linkedin.com/in/priyanshu-jaiswal-982a0131b" target="_blank">LinkedIn Profile</a></p>
-    </section>
+<!-- Contact -->
+<section class="contact" id="contact">
+    <h2>Contact Me</h2>
+    <p>Email: <a href="mailto:jaiswal000.pj@gmail.com">jaiswal000.pj@gmail.com</a></p>
+    <p>Phone: <a href="tel:8864014874">8864014874</a></p>
+    <p>Location: Greater Noida, Uttar Pradesh</p>
+    <p><a href="https://www.linkedin.com/in/priyanshu-jaiswal-982a0131b" target="_blank">LinkedIn</a> | 
+       
+       <a href="https://github.com/priyanshu88pj" target="_blank">GitHub</a></p>
+</section>
 
-    <footer>
-        <p>&copy; 2025 Priyanshu Jaiswal. All rights reserved.</p>
-    </footer>
+<footer>
+    <p>&copy; 2025 Priyanshu Jaiswal. All rights reserved.</p>
+</footer>
+
+<!-- Scroll Animation -->
+<script>
+    const sections = document.querySelectorAll("section");
+    window.addEventListener("scroll", () => {
+        sections.forEach(sec => {
+            const top = sec.getBoundingClientRect().top;
+            if(top < window.innerHeight - 100){
+                sec.classList.add("visible");
+            }
+        });
+    });
+
+    // Circuit Background Animation
+    const canvas = document.getElementById('circuit-bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const lines = [];
+    const particles = [];
+
+    function initBackground() {
+        for (let i = 0; i < 25; i++) {
+            lines.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                length: Math.random() * 150 + 50,
+                speed: Math.random() * 1 + 0.5,
+                dir: Math.random() > 0.5 ? 'h' : 'v'
+            });
+        }
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2 + 1,
+                dx: (Math.random() - 0.5) * 0.5,
+                dy: (Math.random() - 0.5) * 0.5
+            });
+        }
+    }
+
+    function drawBackground() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Glow particles
+        ctx.fillStyle = 'rgba(0,255,255,0.6)';
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+            p.x += p.dx;
+            p.y += p.dy;
+            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+        });
+
+        // Circuit lines
+        ctx.strokeStyle = 'rgba(0,255,255,0.4)';
+        ctx.lineWidth = 1.5;
+        lines.forEach(l => {
+            ctx.beginPath();
+            if (l.dir === 'h') {
+                ctx.moveTo(l.x, l.y);
+                ctx.lineTo(l.x + l.length, l.y);
+                l.x += l.speed;
+                if (l.x > canvas.width) l.x = -l.length;
+            } else {
+                ctx.moveTo(l.x, l.y);
+                ctx.lineTo(l.x, l.y + l.length);
+                l.y += l.speed;
+                if (l.y > canvas.height) l.y = -l.length;
+            }
+            ctx.stroke();
+        });
+
+        requestAnimationFrame(drawBackground);
+    }
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+
+    initBackground();
+    drawBackground();
+</script>
+
 </body>
 </html>
